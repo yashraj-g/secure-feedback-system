@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+{% block content %}
+<div class="card narrow">
+  <h2>Login</h2>
+  <form method="post" action="{{ url_for('login') }}" autocomplete="off">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <label>Email <input type="email" name="email" maxlength="254" required></label>
+    <label>Password <input type="password" name="password" maxlength="128" required></label>
+    <button type="submit">Login</button>
+  </form>
+  <p>New user? <a href="{{ url_for('register') }}">Register here</a></p>
+</div>
+{% endblock %}

@@ -1,0 +1,9 @@
+digraph L0 { rankdir=LR; fontname="Arial"; node [fontname="Arial", fontsize=11]; edge [fontname="Arial", fontsize=10];
+ user [label="User\n(Student)", shape=box, style=filled, fillcolor="#E8F0FE"];
+ admin [label="Admin", shape=box, style=filled, fillcolor="#E8F0FE"];
+ sys [label="0\nSecure Online\nFeedback System", shape=circle, style=filled, fillcolor="#FFF2CC", width=1.8];
+ user -> sys [label="registration details,\nlogin credentials,\nfeedback text"];
+ sys -> user [label="confirmation, own feedback,\ngeneric error messages"];
+ admin -> sys [label="login credentials,\ndelete request"];
+ sys -> admin [label="all feedback,\ndelete confirmation"];
+}

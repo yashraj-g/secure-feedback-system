@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Register{% endblock %}
+{% block content %}
+<div class="card narrow">
+  <h2>Register</h2>
+  {% for e in errors %}<div class="flash error">{{ e }}</div>{% endfor %}
+  <form method="post" action="{{ url_for('register') }}" autocomplete="off">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <label>Name <input type="text" name="name" maxlength="50" value="{{ form.get('name', '') }}" required></label>
+    <label>Email <input type="email" name="email" maxlength="254" value="{{ form.get('email', '') }}" required></label>
+    <label>Password <input type="password" name="password" minlength="8" maxlength="128" required></label>
+    <small>8+ characters with uppercase, lowercase and a digit.</small>
+    <button type="submit">Create account</button>
+  </form>
+  <p>Already registered? <a href="{{ url_for('login') }}">Login</a></p>
+</div>
+{% endblock %}

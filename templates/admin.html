@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard{% endblock %}
+{% block content %}
+<div class="card">
+  <h2>All feedback</h2>
+  {% if items %}
+    <table>
+      <tr><th>ID</th><th>Date (UTC)</th><th>User</th><th>Feedback</th><th>Action</th></tr>
+      {% for item in items %}
+      <tr>
+        <td>{{ item.id }}</td>
+        <td>{{ item.created_at }}</td>
+        <td>{{ item.name }}<br><small>{{ item.email }}</small></td>
+        <td>{{ item.message }}</td>
+        <td>
+          <form method="post" action="{{ url_for('delete_feedback', feedback_id=item.id) }}" class="inline">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button type="submit" class="danger">Delete</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+  {% else %}<p>No feedback has been submitted yet.</p>{% endif %}
+</div>
+{% endblock %}

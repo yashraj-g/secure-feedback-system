@@ -1,0 +1,22 @@
+digraph L1 { rankdir=LR; fontname="Arial"; compound=true; node [fontname="Arial", fontsize=10]; edge [fontname="Arial", fontsize=9];
+ subgraph cluster_b { label="Trust boundary 1: Browser (untrusted)"; style=dashed; color="#B00020"; fontcolor="#B00020";
+   user [label="User", shape=box, style=filled, fillcolor="#E8F0FE"];
+   admin [label="Admin", shape=box, style=filled, fillcolor="#E8F0FE"]; }
+ subgraph cluster_a { label="Trust boundary 2: Application server (validation, authz, logging)"; style=dashed; color="#1F3864"; fontcolor="#1F3864";
+   p1 [label="1.0\nRegister", shape=circle, style=filled, fillcolor="#FFF2CC"];
+   p2 [label="2.0\nLogin &\nSession", shape=circle, style=filled, fillcolor="#FFF2CC"];
+   p3 [label="3.0\nSubmit\nFeedback", shape=circle, style=filled, fillcolor="#FFF2CC"];
+   p4 [label="4.0\nView\nFeedback", shape=circle, style=filled, fillcolor="#FFF2CC"];
+   p5 [label="5.0\nDelete\nFeedback", shape=circle, style=filled, fillcolor="#FFF2CC"];
+   p6 [label="6.0\nAudit &\nError Logging", shape=circle, style=filled, fillcolor="#FFF2CC"]; }
+ subgraph cluster_d { label="Trust boundary 3: Database / log files"; style=dashed; color="#2E7D32"; fontcolor="#2E7D32";
+   d1 [label="D1  users", shape=cds, style=filled, fillcolor="#E3F6E8"];
+   d2 [label="D2  feedback", shape=cds, style=filled, fillcolor="#E3F6E8"];
+   d3 [label="D3  audit_log / app.log", shape=cds, style=filled, fillcolor="#E3F6E8"]; }
+ user -> p1 [label="name, email, password"]; p1 -> d1 [label="validated data +\nhashed password"];
+ user -> p2; admin -> p2 [label="credentials"]; p2 -> d1 [dir=both, label="verify hash"];
+ user -> p3 [label="feedback (<=500)"]; p3 -> d2 [label="parameterized INSERT"];
+ user -> p4 [label="view own"]; admin -> p4 [label="view all (role=admin)"]; d2 -> p4 [label="SELECT"];
+ admin -> p5 [label="delete id"]; p5 -> d2 [label="DELETE"];
+ p5 -> p6 [label="admin action"]; p2 -> p6 [label="login events"]; p6 -> d3 [label="who/what/when/IP"];
+}
